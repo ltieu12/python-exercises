@@ -29,8 +29,13 @@ def get_args():
 def stemmer(text):
     """Return leading consonants (if any), and 'stem' of word"""
     consonants = ''.join([c for c in string.ascii_lowercase if c not in 'aeiou'])
-    pattern = '[' + consonants + ']'
-    match = re.match(f'([{consonants}]+)?([aeiou])(.*)', text, re.IGNORECASE)
+    pattern = (
+            '([' + consonants + ']+)?'      # capture one or more consonants, optional
+            '([aeiou])'                     # capture at least one vowel
+            '(.*)'                          # capture zero or more of anything
+
+    )
+    match = re.match(pattern, text, re.IGNORECASE)
     if match:
         p1 = match.group(1) or ''
         p2 = match.group(2) or ''
